@@ -1,0 +1,96 @@
+#landing-header {
+  z-index: 1;
+  position: relative;
+  text-align: center;
+  padding-top: 40vh;
+}
+
+h1 {
+  color: #e6e2d3;
+  text-shadow: 1px 1px #b9936c;
+  font-family: "Palatino";
+}
+
+#landing-button {
+  margin-top: 10px;
+  background-color: transparent;
+  background-repeat:no-repeat;
+  color: #e6e2d3;
+  text-shadow: 0.8px 0.8px #b9936c;
+  border-color: #e6e2d3;
+  font-family: "Palatino";
+}
+
+#landing-button:hover {
+  background-color: #b9936c;
+  opacity: 0.8;
+}
+
+.slideshow { 
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.slideshow li { 
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  opacity: 0;
+  z-index: 0;
+  animation: imageAnimation 40s linear infinite; 
+}
+
+.slideshow li:nth-child(1) { 
+  background-image: url(https://images.unsplash.com/photo-1507914372368-b2b085b925a1?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=e29a66f915259fa90f82c55edfdd4a7a&auto=format&fit=crop&w=1350&q=80);
+
+}
+.slideshow li:nth-child(2) { 
+  background-image: url(https://images.unsplash.com/photo-1521017432531-fbd92d768814?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=e813bc9e93c2b7ede92476a3eddf3606&auto=format&fit=crop&w=1350&q=80); 
+  animation-delay: 8s; 
+}
+.slideshow li:nth-child(3) { 
+  background-image: url(https://images.unsplash.com/photo-1492158244976-29b84ba93025?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=7a3c363911e0f724249dda7d634365f1&auto=format&fit=crop&w=1267&q=80);
+  animation-delay: 16s; 
+}
+.slideshow li:nth-child(4) { 
+  background-image: url(https://images.unsplash.com/5/unsplash-bonus.jpg?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=e2847ac620c2330be2e990343ec347af&auto=format&fit=crop&w=1350&q=80);
+  animation-delay: 24s; 
+}
+.slideshow li:nth-child(5) { 
+  background-image: url(https://images.unsplash.com/photo-1507226983735-a838615193b0?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f9799385813b9667c25137f7a9efe7ac&auto=format&fit=crop&w=1350&q=80);
+  animation-delay: 32s; 
+}
+
+@keyframes imageAnimation { 
+  0% { 
+    opacity: 0; 
+    animation-timing-function: ease-in;
+  }
+  10% {
+    opacity: 1;
+    animation-timing-function: ease-out;
+  }
+  20% {
+    opacity: 1
+  }
+  30% {
+    opacity: 0
+  }
+}
+
+/* Older browser support - .no-cssanimations class added by modernizr */
+.no-cssanimations .slideshow li {
+	opacity: 1;
+}
