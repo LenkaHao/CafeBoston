@@ -8,7 +8,7 @@ Web application for user reviews of cafes in Boston
 - Interactive map
 
 ### Technology Stack
-- HTML, CSS, Semantic UI
+- HTML, CSS, Bootstrap
 - Node.js, Express
 - MongoDB
 - GoogleMaps API
