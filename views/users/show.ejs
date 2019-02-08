@@ -1,0 +1,37 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <h3 class="text-center">Your Profile</h3>
+    <ul class="list-group user-profile" >
+        <li class="list-group-item">Username: <span class="pull-right"><%= user.username %></span></li>
+        <li class="list-group-item">Email: <span class="pull-right"><%= user.email %></span></li>
+        <li class="list-group-item">User since: <span class="pull-right"><%= moment(user.createAt).fromNow() %></span></li>
+    </ul>
+    
+    
+    <div class="user-profile">
+    <a class="btn btn-primary text-center" style="display: block;" role="button" data-toggle="collapse" href="#collapseEdit<%= currentUser._id %>" aria-expanded="false" aria-controls="collapse<%= currentUser._id %>">
+        Edit
+    </a>
+    
+    <div class="collapse" id="collapseEdit<%= currentUser._id %>">
+        <div class="well" style="border-left: 5px solid #146EB4; margin-top: 15px;">
+            <h4>Edit your profile <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></h4>
+                <form id="edit-profile-form<%= currentUser._id %>" action="/user/<%= currentUser.id %>?_method=PUT" method="POST">
+                    <div class="form-group">
+                        <input class="form-control" type="text" disabled value="<%= currentUser.username %>">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="email" name="user[email]" value="<%= currentUser.email %>">
+                    </div>
+                        <div class="form-group">
+                        <button class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Edit profile</button>
+                    </div>
+                </form>
+        </div>
+    </div>
+    </div>
+    
+</div>
+
+<% include ../partials/footer %>
