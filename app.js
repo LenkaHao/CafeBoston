@@ -29,7 +29,7 @@ mongoose.connect("mongodb://localhost/cafe_boston");
 //seedDB();
 
 app.use(session({
-    secret: "red fox",
+    secret: "",
     resave: false,
     saveUninitialized: false
 }));
