@@ -1,0 +1,55 @@
+.thumbnail {
+    padding: 0;
+}
+
+.thumbnail img {
+    width: 100%;
+}
+
+.delete-form {
+    display: inline;
+}
+
+.form-heading {
+    text-align: center;
+}
+
+.form-content {
+    width: 30%; 
+    margin: 30px auto;
+}
+
+/* Google Maps */
+#map {
+    height: 400px;
+    width: 100%;
+}
+
+h1, h3 {
+    font-family: "Palatino";
+}
+
+#noMatch {
+    text-align: center;
+    font-family: "Trebuchet MS";
+}
+
+.navbar {
+    font-family: "Trebuchet MS";
+}
+
+.btn-primary {
+    font-family: "Verdana";
+}
+.btn-success {
+    font-family: "Trebuchet MS";
+}
+
+h4 {
+    font-family: "Verdana";
+}
+
+.user-profile {
+    width: 50%;
+    margin: 20px auto;
+}
