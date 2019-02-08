@@ -1,0 +1,141 @@
+<% include ../partials/header %>
+
+<div class="row">
+    <div class="col-md-3">
+        <h4>Cafe Boston</h4>
+        <ul class="list-group">
+            <li class="list-group-item active">Info One</li>
+            <li class="list-group-item">Info Two</li>
+            <li class="list-group-item">Info Three</li>
+        </ul>
+        <div id="map"></div>
+    </div>
+    <div class="col-md-9">
+        <div class="thumbnail">
+            <img class="img-responsive" src="<%= cafe.image %>">
+            <div class="caption">
+                <h4 class="pull-right"></h4>
+                <h4><%= cafe.name%></h4>
+                <p><%= cafe.description %></p>
+                <p><em>Submitted by <%= cafe.author.username %>, <%= moment(cafe.creatAt).fromNow() %> </em></p>
+                <% if (currentUser && cafe.author.id.equals(currentUser._id)){ %>
+                    <a class="btn btn-xs btn-warning" href="/cafes/<%= cafe._id %>/edit">Edit</a>
+                    <form class="delete-form" action="/cafes/<%= cafe._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-xs btn-danger">Delete</button>
+                    </form>
+                <% } %>
+            </div>
+        </div>
+        <div class="well">
+                <div class="text-right">
+                    <a class="btn btn-success pull-right" role="button" data-toggle="collapse" href="#collapseComment" aria-expanded="false" aria-controls="collapseComment">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add new comment</a>
+                    </a>
+                </div>
+                
+                <h4><strong>Comments <span class="glyphicon glyphicon glyphicon-comment" aria-hidden="true"></span></strong></h4>
+                <div class="collapse" id="collapseComment">
+                    <div class="well" style="border-left: 5px solid #00C851;">
+                        <% if(!currentUser) { %>
+                            <h5>You need to login before you can comment. <a href="/login">Click here</a> to go to the login page.</h5>
+                        <% } %>
+                        <% if(currentUser) { %>
+                            <h4>Write your comment <span class="glyphicon glyphicon glyphicon-pencil" aria-hidden="true"></span></h4>
+                            <form id="add-comment-form" action="/cafes/<%= cafe._id %>/comments" method="POST">
+                                <div class="form-group">
+                                  <input class="form-control" type="text" disabled value="<%= currentUser.username %>">
+                                </div>
+                                <div class="form-group">
+                                  <textarea class="form-control" name="comment[text]" placeholder="Write your comment..." form="add-comment-form" rows="5" cols="70"></textarea>
+                                </div>
+                                <div class="form-group">
+                                  <button class="btn btn-success btn-sm">Comment <span class="glyphicon glyphicon-comment" aria-hidden="true"></span></button>
+                                </div>
+                            </form>
+                        <% } %>
+                    </div>
+                </div>
+                <hr>
+                <% if (cafe.comments.length === 0) { %>
+                    <em style="color: grey;">No comments yet.</em>
+                <% } %>
+                
+                <% for (var i = 0; i < cafe.comments.length; i++){ %>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <strong>
+                                <% if (currentUser && currentUser._id.equals(cafe.comments[i].author.id)) { %>
+                                    <span style="color: orange;" class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                <% } else { %>
+                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                <% } %>
+                                <%= cafe.comments[i].author.username %>
+                            </strong>
+                            <span class="pull-right"><%= moment(cafe.comments[i].createAt).fromNow() %></span>
+                            <p><%= cafe.comments[i].text %></p>
+                            <% if (currentUser && cafe.comments[i].author.id.equals(currentUser._id)){ %>
+                                <a class="btn btn-xs btn-warning" role="button" data-toggle="collapse" href="#collapseEdit<%= cafe.comments[i]._id %>" aria-expanded="false" aria-controls="collapse<%= cafe.comments[i]._id %>">
+                                    Edit
+                                </a>
+                                <form class="delete-form" action="/cafes/<%= cafe._id %>/comments/<%= cafe.comments[i]._id %>?_method=DELETE" method="POST">
+                                    <button class="btn btn-xs btn-danger">Delete</button>
+                                </form>
+                                
+                                <div class="collapse" id="collapseEdit<%= cafe.comments[i]._id %>">
+                                    <div class="well" style="border-left: 5px solid #ffbb33; margin-top: 15px;">
+                                        <h4>Edit your comment <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></h4>
+                                        <form id="edit-comment-form<%= cafe.comments[i]._id %>" action="/cafes/<%= cafe._id %>/comments/<%= cafe.comments[i]._id %>?_method=PUT" method="POST">
+                                            <div class="form-group">
+                                              <input class="form-control" type="text" disabled value="<%= currentUser.username %>">
+                                            </div>
+                                            <div class="form-group">
+                                              <textarea class="form-control" name="comment[text]" placeholder="Your comment text..." form="edit-comment-form<%= cafe.comments[i]._id %>" rows="5" cols="70"><%= cafe.comments[i].text %></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                              <button class="btn btn-warning btn-sm">Edit comment <span class="glyphicon glyphicon-comment" aria-hidden="true"></span></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            <% } %>
+                            <hr>
+                        </div>
+                    </div>
+                <% } %>
+        </div>
+    </div>
+</div>
+
+
+<script>
+  function initMap() {
+    var lat = <%= cafe.lat %>;
+    var lng = <%= cafe.lng %>;
+    var center = {lat: lat, lng: lng };
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 8,
+        center: center,
+        scrollwheel: false
+    });
+    var contentString = `
+      <strong><%= cafe.name %><br />
+      <%= cafe.location %></strong>
+      <p><%= cafe.description %></p>
+    `
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+    var marker = new google.maps.Marker({
+        position: center,
+        map: map
+    });
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+  }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcr4_JJTa75h6WgSF7dpwcXKDu357EAr0&callback=initMap"></script>
+
+
+
+<% include ../partials/footer %>
